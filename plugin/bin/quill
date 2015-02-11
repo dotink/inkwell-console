@@ -15,20 +15,20 @@ call_user_func(function() use ($app) {
     $shell  = new Quill(new Configuration($config));
 
     echo '                                                                       ' . PHP_EOL;
-	echo '     ________        .__.__  .__                                       ' . PHP_EOL;
-	echo '     \_____  \  __ __|__|  | |  |       (_)__  / //_/ | /| / /__ / / / ' . PHP_EOL;
- 	echo '      /  / \  \|  |  \  |  | |  |      / / _ \/ , < | |/ |/ / -_) / /  ' . PHP_EOL;
-	echo '     /   \_/.  \  |  /  |  |_|  |__FOR/_/_//_/_/|_| |__/|__/\__/_/_/   ' . PHP_EOL;
-	echo '     \_____\ \_/____/|__|____/____/                             3.0    ' . PHP_EOL;
-	echo '            \__>                                                       ' . PHP_EOL;
+    echo '     ________        .__.__  .__                                       ' . PHP_EOL;
+    echo '     \_____  \  __ __|__|  | |  |       (_)__  / //_/ | /| / /__ / / / ' . PHP_EOL;
+    echo '      /  / \  \|  |  \  |  | |  |      / / _ \/ , < | |/ |/ / -_) / /  ' . PHP_EOL;
+    echo '     /   \_/.  \  |  /  |  |_|  |__FOR/_/_//_/_/|_| |__/|__/\__/_/_/   ' . PHP_EOL;
+    echo '     \_____\ \_/____/|__|____/____/                             3.0    ' . PHP_EOL;
+    echo '            \__>                                                       ' . PHP_EOL;
     echo '                                                                       ' . PHP_EOL;
     echo 'Welcome to Quill, the inKWell Console, you can begin typing PHP or try:' . PHP_EOL;
     echo '                                                                       ' . PHP_EOL;
-	echo '    - help                                                             ' . PHP_EOL;
-	echo '    - clear                                                            ' . PHP_EOL;
-	echo '    - history                                                          ' . PHP_EOL;
-	echo '    - dump $app                                                        ' . PHP_EOL;
-	echo '    - exit                                                             ' . PHP_EOL;
+    echo '    - help                                                             ' . PHP_EOL;
+    echo '    - clear                                                            ' . PHP_EOL;
+    echo '    - history                                                          ' . PHP_EOL;
+    echo '    - dump $app                                                        ' . PHP_EOL;
+    echo '    - exit                                                             ' . PHP_EOL;
     echo '                                                                       ' . PHP_EOL;
 
     $input->bind(new InputDefinition(array(
