@@ -3,6 +3,7 @@
 	"description": "Interactive Console for inKWell",
 	"keywords": ["cli", "repl"],
 	"license": "AGPL-3.0",
+	"type": "opus-package",
 	"authors": [
 		{
 			"name": "Matthew J. Sahagian",
