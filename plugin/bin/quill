@@ -14,7 +14,7 @@ call_user_func(function() use ($app) {
     $input  = new ArgvInput();
     $shell  = new Quill(new Configuration($config));
 
-    echo PHP_EOL;
+    echo '                                                                       ' . PHP_EOL;
 	echo '     ________        .__.__  .__                                       ' . PHP_EOL;
 	echo '     \_____  \  __ __|__|  | |  |       (_)__  / //_/ | /| / /__ / / / ' . PHP_EOL;
  	echo '      /  / \  \|  |  \  |  | |  |      / / _ \/ , < | |/ |/ / -_) / /  ' . PHP_EOL;
