@@ -48,9 +48,13 @@ call_user_func(function() use ($app) {
     $shell->setPrompt(function() use ($app) {
             $cwd  = getcwd();
             $root = $app->getDirectory();
+            $home = $app->getEnvironment('HOME');
 
             if (strpos($cwd, $root) === 0) {
                 $cwd = preg_replace('#^' . $root . '#', '@', $cwd);
+
+            } elseif (strpos($cwd, $home) === 0) {
+                $cwd = preg_replace('#^' . $home . '#', '~', $cwd);
             }
 
             return sprintf('[%s]', $cwd);

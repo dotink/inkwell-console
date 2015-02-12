@@ -49,19 +49,25 @@ HELP
 			sort($directories);
 			sort($files);
 
-			echo PHP_EOL;
-
-			foreach ($directories as $directory) {
-				echo '    ' . $directory . DIRECTORY_SEPARATOR . PHP_EOL;
+			if (count($directories) || count($files)) {
+				echo PHP_EOL;
 			}
 
-			echo PHP_EOL;
+			if (count($directories)) {
+				foreach ($directories as $directory) {
+					echo '    ' . $directory . DIRECTORY_SEPARATOR . PHP_EOL;
+				}
 
-			foreach ($files as $file) {
-				echo '    ' . $file . PHP_EOL;
+				echo PHP_EOL;
 			}
 
-			echo PHP_EOL;
+			if (count($files)) {
+				foreach ($files as $file) {
+					echo '    ' . $file . PHP_EOL;
+				}
+
+				echo PHP_EOL;
+			}
 	    }
 	}
 }
