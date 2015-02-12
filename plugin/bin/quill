@@ -35,9 +35,26 @@ call_user_func(function() use ($app) {
         new InputArgument('include', InputArgument::IS_ARRAY),
     )));
 
+    foreach ($app['engine']->fetch('@quill') as $id) {
+        foreach ($app['engine']->fetch($id, '@quill.commands', array()) as $command_class) {
+            $shell->add($app['broker']->make($command_class));
+        }
+    }
+
     //
     // Execute
     //
+
+    $shell->setPrompt(function() use ($app) {
+            $cwd  = getcwd();
+            $root = $app->getDirectory();
+
+            if (strpos($cwd, $root) === 0) {
+                $cwd = preg_replace('#^' . $root . '#', '@', $cwd);
+            }
+
+            return sprintf('[%s]', $cwd);
+    });
 
     $shell->setIncludes($input->getArgument('include'));
     $shell->setScopeVariables(['app' => $app]);
