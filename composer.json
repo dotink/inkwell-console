@@ -19,7 +19,7 @@
 	],
 	"require": {
 		"php": ">=5.4.0",
-		"psy/psysh": "@stable"
+		"psy/psysh": "^5.0.0"
 	},
 	"autoload": {
 		"classmap": ["src/"]
