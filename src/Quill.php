@@ -4,6 +4,9 @@
 	use Psy\Command;
 	use Psy\Configuration;
 
+	/**
+	 * Quill provides some additional missing features on top of the classic Psy\Shell
+	 */
 	class Quill extends Shell
 	{
 		/**
@@ -27,7 +30,9 @@
 		/**
 		 * Create a new Psy Shell.
 		 *
+		 * @access public
 		 * @param Configuration $config (default: null)
+		 * @return void
 		 */
 		public function __construct(Configuration $config = null)
 		{
@@ -38,25 +43,11 @@
 
 
 		/**
-		 * Gets the default commands that should always be available.
 		 *
-		 * @return array An array of default Command instances
 		 */
-		protected function getDefaultCommands()
+		public function exec($command)
 		{
-			$hist = new Command\HistoryCommand();
-
-			$hist->setReadline($this->config->getReadline());
-
-			return array(
-				new Command\HelpCommand(),
-				new Command\ClearCommand(),
-				new Command\BufferCommand(),
-				$hist,
-				new Command\DumpCommand(),
-				new Command\ShowCommand(),
-				new Command\ExitCommand(),
-			);
+			return $this->runCommand($command);
 		}
 
 
@@ -81,11 +72,42 @@
 
 
 		/**
+		 * Gets the default commands that should always be available.
 		 *
+		 * @access protected
+		 * @return array An array of default Command instances
+		 */
+		protected function getDefaultCommands()
+		{
+			$hist = new Command\HistoryCommand();
+
+			$hist->setReadline($this->config->getReadline());
+
+			return array(
+				new Command\HelpCommand(),
+				new Command\ClearCommand(),
+				new Command\BufferCommand(),
+				$hist,
+				new Command\DumpCommand(),
+				new Command\ShowCommand(),
+				new Command\ExitCommand(),
+			);
+		}
+
+
+		/**
+		 * Get the current prompt
+		 *
+		 * This will prepend the dynamic prompt to the traditional one.
+		 *
+		 * @access protected
+		 * @return string The current prompt
 		 */
 		protected function getPrompt()
 		{
-			return call_user_func($this->prompt) . parent::getPrompt();
+			return $this->prompt
+				? call_user_func($this->prompt) . parent::getPrompt()
+				: parent::getPrompt();
 		}
 	}
 }

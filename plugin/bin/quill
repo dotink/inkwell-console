@@ -1,86 +1,90 @@
 #!/usr/bin/env php
 <?php
 
-    use Psy\Configuration;
-    use Inkwell\Console\Quill;
-    use Symfony\Component\Console\Input\ArgvInput;
-    use Symfony\Component\Console\Input\InputArgument;
-    use Symfony\Component\Console\Input\InputDefinition;
+	use Psy\Configuration;
+	use Inkwell\Console\Quill;
+	use Symfony\Component\Console\Input\ArgvInput;
+	use Symfony\Component\Console\Input\InputArgument;
+	use Symfony\Component\Console\Input\InputDefinition;
 
-    //
-    // Track backwards until we discover our includes directory.  The only file required
-    // to be in place for this is `init.php` which should return our application
-    // instance.
-    //
+	//
+	// Track backwards until we discover our includes directory.  The only file required
+	// to be in place for this is `init.php` which should return our application
+	// instance.
+	//
 
-    for (
-    	$init_path  = __DIR__;
-    	$init_path != '/' && !is_file($init_path . DIRECTORY_SEPARATOR . 'init.php');
-    	$init_path  = realpath($init_path . DIRECTORY_SEPARATOR . '..')
-    );
+	for (
+		$init_path  = __DIR__;
+		$init_path != '/' && !is_file($init_path . DIRECTORY_SEPARATOR . 'init.php');
+		$init_path  = realpath($init_path . DIRECTORY_SEPARATOR . '..')
+	);
 
-    if (!($app = @include($init_path . DIRECTORY_SEPARATOR . 'init.php'))) {
-        echo 'Cannot find application instance';
-        exit(-1);
-    }
+	if (!($app = @include($init_path . DIRECTORY_SEPARATOR . 'init.php'))) {
+		echo 'Cannot find application instance';
+		exit(-1);
+	}
 
-    //
-    // We've got an application instance so let's run!
-    //
+	//
+	// We've got an application instance so let's run!
+	//
 
-    $app->run(function($app) {
-        $config = array();
-        $input  = new ArgvInput();
-        $shell  = new Quill(new Configuration($config));
+	$app->run(function($app) use ($argv) {
+		$params = array_slice($argv, 1);
+		$config = new Configuration(array());
+		$shell  = new Quill($config);
 
-        echo '                                                                       ' . PHP_EOL;
-        echo '     ________        .__.__  .__                                       ' . PHP_EOL;
-        echo '     \_____  \  __ __|__|  | |  |       (_)__  / //_/ | /| / /__ / / / ' . PHP_EOL;
-        echo '      /  / \  \|  |  \  |  | |  |      / / _ \/ , < | |/ |/ / -_) / /  ' . PHP_EOL;
-        echo '     /   \_/.  \  |  /  |  |_|  |__FOR/_/_//_/_/|_| |__/|__/\__/_/_/   ' . PHP_EOL;
-        echo '     \_____\ \_/____/|__|____/____/                             3.0    ' . PHP_EOL;
-        echo '            \__>                                                       ' . PHP_EOL;
-        echo '                                                                       ' . PHP_EOL;
-        echo 'Welcome to Quill, the inKWell Console, you can begin typing PHP or try:' . PHP_EOL;
-        echo '                                                                       ' . PHP_EOL;
-        echo '    - help                                                             ' . PHP_EOL;
-        echo '    - clear                                                            ' . PHP_EOL;
-        echo '    - history                                                          ' . PHP_EOL;
-        echo '    - dump $app                                                        ' . PHP_EOL;
-        echo '    - exit                                                             ' . PHP_EOL;
-        echo '                                                                       ' . PHP_EOL;
+		foreach ($app['engine']->fetch('@quill') as $id) {
+			foreach ($app['engine']->fetch($id, '@quill.commands', array()) as $command_class) {
+				$shell->add($app['broker']->make($command_class));
+			}
+		}
 
-        $input->bind(new InputDefinition(array(
-            new InputArgument('include', InputArgument::IS_ARRAY),
-        )));
+		$shell->setOutput($config->getOutput());
+		$shell->setScopeVariables(['app' => $app]);
 
-        foreach ($app['engine']->fetch('@quill') as $id) {
-            foreach ($app['engine']->fetch($id, '@quill.commands', array()) as $command_class) {
-                $shell->add($app['broker']->make($command_class));
-            }
-        }
+		if (!$params) {
+			echo '                                                               ' . PHP_EOL;
+			echo '       ,ad8888ba,                 88  88  88                   ' . PHP_EOL;
+			echo '      d8"     `"8b                ""  88  88                   ' . PHP_EOL;
+			echo '     d8"        `8b                   88  88                   ' . PHP_EOL;
+			echo '     88          88  88       88  88  88  88                   ' . PHP_EOL;
+			echo '     88          88  88       88  88  88  88                   ' . PHP_EOL;
+			echo '     Y8,    "88,,8P  88       88  88  88  88                   ' . PHP_EOL;
+			echo '      Y8a.    Y88P   "8a,   ,a88  88  88  88                   ' . PHP_EOL;
+			echo '       `"Y8888Y"Y8a   `"YbbdPY8   88  88  88   for inKWell 3.0 ' . PHP_EOL;
+			echo '                                                               ' . PHP_EOL;
+			echo 'Welcome, you can begin typing PHP or try:                      ' . PHP_EOL;
+			echo '                                                               ' . PHP_EOL;
+			echo '    - help                                                     ' . PHP_EOL;
+			echo '    - clear                                                    ' . PHP_EOL;
+			echo '    - history                                                  ' . PHP_EOL;
+			echo '    - dump $app                                                ' . PHP_EOL;
+			echo '    - exit                                                     ' . PHP_EOL;
+			echo '                                                               ' . PHP_EOL;
 
-        //
-        // Execute
-        //
+			$shell->setPrompt(function() use ($app) {
+					$cwd  = getcwd();
+					$root = $app->getDirectory();
+					$home = $app->getEnvironment('HOME');
 
-        $shell->setPrompt(function() use ($app) {
-                $cwd  = getcwd();
-                $root = $app->getDirectory();
-                $home = $app->getEnvironment('HOME');
+					if (strpos($cwd, $root) === 0) {
+						$cwd = preg_replace('#^' . $root . '#', '@', $cwd);
 
-                if (strpos($cwd, $root) === 0) {
-                    $cwd = preg_replace('#^' . $root . '#', '@', $cwd);
+					} elseif (strpos($cwd, $home) === 0) {
+						$cwd = preg_replace('#^' . $home . '#', '~', $cwd);
+					}
 
-                } elseif (strpos($cwd, $home) === 0) {
-                    $cwd = preg_replace('#^' . $home . '#', '~', $cwd);
-                }
+					return sprintf('[%s]', $cwd);
+			});
 
-                return sprintf('[%s]', $cwd);
-        });
+			exit($shell->run());
 
-        $shell->setIncludes($input->getArgument('include'));
-        $shell->setScopeVariables(['app' => $app]);
-
-        exit($shell->run());
-    });
+		} else {
+			try {
+				exit($shell->exec(implode(' ', $params)));
+			} catch (\Exception $e) {
+				echo $e->getMessage() . PHP_EOL;
+				exit(1);
+			}
+		}
+	});

@@ -8,32 +8,32 @@
 
 	class LsCommand extends Command
 	{
-	    /**
-	     * {@inheritdoc}
-	     */
-	    protected function configure()
-	    {
-	        $this
-	            ->setName('ls')
-	            ->setDefinition(array(
-	                new InputArgument('directory', InputArgument::OPTIONAL, 'The directory to list')
-	            ))
-	            ->setDescription('List the contents of a directory')
-	            ->setHelp(
-	                <<<HELP
+		/**
+		 * {@inheritdoc}
+		 */
+		protected function configure()
+		{
+			$this
+				->setName('ls')
+				->setDefinition(array(
+					new InputArgument('directory', InputArgument::OPTIONAL, 'The directory to list')
+				))
+				->setDescription('List the contents of a directory')
+				->setHelp(
+					<<<HELP
 List the contents of a directory
 
 ls [<directory>]
 HELP
-	            );
-	    }
+				);
+		}
 
-	    /**
-	     * {@inheritdoc}
-	     */
-	    protected function execute(InputInterface $input, OutputInterface $output)
-	    {
-	        $directory   = $input->getArgument('directory') ?: getcwd();
+		/**
+		 * {@inheritdoc}
+		 */
+		protected function execute(InputInterface $input, OutputInterface $output)
+		{
+			$directory   = $input->getArgument('directory') ?: getcwd();
 			$directories = array();
 			$files       = array();
 
@@ -68,6 +68,6 @@ HELP
 
 				echo PHP_EOL;
 			}
-	    }
+		}
 	}
 }

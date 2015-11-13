@@ -8,36 +8,36 @@
 
 	class CdCommand extends Command
 	{
-	    /**
-	     * {@inheritdoc}
-	     */
-	    protected function configure()
-	    {
-	        $this
-	            ->setName('cd')
-	            ->setDefinition(array(
-	                new InputArgument('directory', InputArgument::REQUIRED, 'The directory to change to')
-	            ))
-	            ->setDescription('Change the current working directory')
-	            ->setHelp(
-	                <<<HELP
+		/**
+		 * {@inheritdoc}
+		 */
+		protected function configure()
+		{
+			$this
+				->setName('cd')
+				->setDefinition(array(
+					new InputArgument('directory', InputArgument::REQUIRED, 'The directory to change to')
+				))
+				->setDescription('Change the current working directory')
+				->setHelp(
+					<<<HELP
 Change the current working directory
 
 cd <directory>
 HELP
-	            );
-	    }
+				);
+		}
 
-	    /**
-	     * {@inheritdoc}
-	     */
-	    protected function execute(InputInterface $input, OutputInterface $output)
-	    {
-	        $directory = $input->getArgument('directory');
+		/**
+		 * {@inheritdoc}
+		 */
+		protected function execute(InputInterface $input, OutputInterface $output)
+		{
+			$directory = $input->getArgument('directory');
 
 			if (!chdir($directory)) {
 
 			}
-	    }
+		}
 	}
 }
