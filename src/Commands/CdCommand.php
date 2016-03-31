@@ -6,6 +6,14 @@
 	use Symfony\Component\Console\Input\InputOption;
 	use Symfony\Component\Console\Output\OutputInterface;
 
+	/**
+	 * A simple change directory command for the inKWell console
+	 *
+	 * @copyright Copyright (c) 2015, Matthew J. Sahagian
+	 * @author Matthew J. Sahagian [mjs] <msahagian@dotink.org>
+	 *
+	 * @license Please reference the LICENSE.md file at the root of this distribution
+	 */
 	class CdCommand extends Command
 	{
 		/**
@@ -20,7 +28,7 @@
 				))
 				->setDescription('Change the current working directory')
 				->setHelp(
-					<<<HELP
+<<<HELP
 Change the current working directory
 
 cd <directory>

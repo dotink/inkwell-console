@@ -43,7 +43,11 @@
 
 
 		/**
+		 * Execute an arbitrary command in the context of the shell
 		 *
+		 * @access public
+		 * @var string $command The command to execute
+		 * @return mixed The result of the command execution
 		 */
 		public function exec($command)
 		{

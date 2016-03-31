@@ -6,6 +6,14 @@
 	use Symfony\Component\Console\Input\InputOption;
 	use Symfony\Component\Console\Output\OutputInterface;
 
+	/**
+	 * A simple ls command for the inKWell console
+	 *
+	 * @copyright Copyright (c) 2015, Matthew J. Sahagian
+	 * @author Matthew J. Sahagian [mjs] <msahagian@dotink.org>
+	 *
+	 * @license Please reference the LICENSE.md file at the root of this distribution
+	 */
 	class LsCommand extends Command
 	{
 		/**
@@ -20,7 +28,7 @@
 				))
 				->setDescription('List the contents of a directory')
 				->setHelp(
-					<<<HELP
+<<<HELP
 List the contents of a directory
 
 ls [<directory>]
