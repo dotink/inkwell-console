@@ -27,6 +27,9 @@
 	"autoload": {
 		"classmap": ["src/"]
 	},
+	"config": {
+		"secure-http": false
+	},
 	"extra": {
 		"opus": {
 			"inkwell/framework": {
