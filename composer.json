@@ -17,12 +17,12 @@
 			"url": "http://packages.dotink.org"
 		}
 	],
+	"require-dev": {
+		"dotink/lab": "^1.1.0"
+	},
 	"require": {
 		"php": ">=5.4.0",
 		"psy/psysh": "^0.7.0"
-	},
-	"require-dev": {
-		"dotink/lab": "^1.1.0"
 	},
 	"autoload": {
 		"classmap": ["src/"]
@@ -30,8 +30,8 @@
 	"extra": {
 		"opus": {
 			"inkwell/framework": {
-				"plugin/bin" : "bin",
-				"plugin/config" : "config"
+				"plugin/bin": "bin",
+				"plugin/config": "config"
 			}
 		}
 	}
